@@ -44,8 +44,8 @@ function groupFieldsIntoRows(fields: FieldSchema[]) {
 }
 
 export function ContentLandingPage() {
-  const { currentUser } = useAuth(); //fix error 
-  const isEditor = currentUser ? canEdit("content", currentUser.role) : false;
+  const { profile } = useAuth();
+  const isEditor = profile ? canEdit("content", profile.role) : false;
 
   const [blocks, setBlocks] = useState<LandingBlock[]>(INITIAL_LANDING_BLOCKS);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -75,7 +75,7 @@ export function ContentLandingPage() {
       ...draft,
       status,
       updatedAt: "Vừa xong",
-      updatedBy: currentUser?.name ?? draft.updatedBy,
+      updatedBy: profile?.full_name ?? draft.updatedBy,
     };
     setBlocks((prev) => prev.map((b) => (b.id === finalBlock.id ? finalBlock : b)));
     setVersions((prev) => [
@@ -84,7 +84,7 @@ export function ContentLandingPage() {
         blockId: finalBlock.id,
         blockName: finalBlock.name,
         action: status === "published" ? "publish" : "draft",
-        savedBy: currentUser?.name ?? "—",
+        savedBy: profile?.full_name ?? "—",
         savedAt: "Vừa xong",
         snapshot: finalBlock,
       },
