@@ -1,4 +1,5 @@
-// MODULE 6: QUY TRÌNH 3 BƯỚC — port 1:1 từ docs/design export/code.html.
+// MODULE 6: QUY TRÌNH 3 BƯỚC — port 1:1 từ docs/design-export/desktop/code.html (lưới 3 cột)
+// hợp nhất docs/design-export/mobile/code.html (vertical stepper có đường nối dọc).
 const STEPS = [
   {
     n: '01',
@@ -36,7 +37,9 @@ export default function ProcessSteps() {
             Hệ thống khảo thí và phân tích học lực chuẩn xác giúp bạn định vị đúng điểm xuất phát và vạch rõ chặng đường tới band mục tiêu.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-space-24 lg:gap-space-32 mb-space-48">
+
+        {/* Desktop (>= md): lưới 3 cột ngang */}
+        <div className="hidden md:grid grid-cols-3 gap-space-24 lg:gap-space-32 mb-space-48">
           {STEPS.map((s) => (
             <div
               key={s.n}
@@ -54,6 +57,26 @@ export default function ProcessSteps() {
             </div>
           ))}
         </div>
+
+        {/* Mobile (< md): vertical stepper với đường nối dọc */}
+        <div className="md:hidden relative pl-6 space-y-6 mb-space-48">
+          <div className="absolute left-3.5 top-4 bottom-4 w-0.5 bg-primary/20 -translate-x-1/2" />
+          {STEPS.map((s, i) => (
+            <div key={s.n} className="relative flex items-start gap-3.5">
+              <div className="w-7 h-7 rounded-full bg-primary text-white flex items-center justify-center font-semibold text-xs flex-shrink-0 ring-4 ring-surface relative z-10">
+                {i + 1}
+              </div>
+              <div className="flex-1 bg-surface-slate p-4 rounded-2xl border border-hairline">
+                <h3 className="text-sm font-semibold text-ink mb-1">{s.title}</h3>
+                <p className="text-xs text-ink-body leading-relaxed text-justify mb-2 font-normal">{s.desc}</p>
+                <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-primary">
+                  <span className="material-symbols-outlined text-[14px]">{s.icon}</span> {s.tag}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+
         {/* CTA Band */}
         <div className="w-full bg-primary-container text-on-primary rounded-3xl p-space-32 md:p-space-48 flex flex-col md:flex-row items-center justify-between gap-space-24 shadow-md">
           <div className="space-y-space-4 text-center md:text-left">

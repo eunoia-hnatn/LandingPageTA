@@ -1,4 +1,8 @@
-// MODULE 8: ĐỘI NGŨ GIÁO VIÊN — port 1:1 từ docs/design export/code.html.
+import { useRef, useState } from 'react';
+
+// MODULE 8: ĐỘI NGŨ GIÁO VIÊN — port 1:1 từ docs/design-export/desktop/code.html (lưới 3 cột
+// tĩnh) hợp nhất docs/design-export/mobile/code.html (carousel scroll-snap + nút Trước/Sau + dots
+// — đáp ứng AC 8.2 vốn chỉ khả thi khi 1 thẻ/viewport, nên chỉ bật carousel dưới `lg`).
 const TEACHERS = [
   {
     name: 'Cô Mai Phương',
@@ -32,7 +36,57 @@ const TEACHERS = [
   },
 ];
 
+function TeacherCard({ t }: { t: (typeof TEACHERS)[number] }) {
+  return (
+    <div className="bg-surface rounded-2xl overflow-hidden border border-hairline shadow-xs flex flex-col hover:shadow-md transition-shadow">
+      <div className="h-64 w-full bg-surface-slate relative overflow-hidden">
+        <img
+          alt={`${t.name} - Chuyên gia luyện thi IELTS`}
+          className={`w-full h-full object-cover ${t.objectPosition}`}
+          src={t.photo}
+        />
+        <div className="absolute top-space-16 right-space-16 px-space-12 py-space-4 rounded-full bg-primary text-on-primary font-label-sm text-label-sm font-semibold shadow-sm">
+          {t.score}
+        </div>
+      </div>
+      <div className="p-space-24 flex flex-col flex-1 justify-between bg-surface">
+        <div>
+          <h3 className="font-headline text-title-sm text-ink font-semibold">{t.name}</h3>
+          <p className="font-body-sm text-body-sm text-ink-muted mb-space-12">{t.role}</p>
+          <div className="flex flex-wrap gap-space-8 mb-space-16">
+            {t.tags.map((tag) => (
+              <span key={tag} className="px-space-8 py-space-4 rounded-md bg-indigo-wash text-primary font-label-sm text-[12px] font-semibold">
+                {tag}
+              </span>
+            ))}
+          </div>
+          <p className="font-body-sm text-body-sm text-ink-body leading-relaxed text-justify">{t.bio}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Instructors() {
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  function scrollByCard(dir: 1 | -1) {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const card = el.children[0] as HTMLElement | undefined;
+    const gap = 16; // gap-4
+    const width = (card?.offsetWidth ?? el.clientWidth) + gap;
+    el.scrollBy({ left: dir * width, behavior: 'smooth' });
+  }
+
+  function handleScroll() {
+    const el = scrollerRef.current;
+    if (!el || !el.children[0]) return;
+    const width = (el.children[0] as HTMLElement).offsetWidth;
+    setActiveIndex(Math.round(el.scrollLeft / width));
+  }
+
   return (
     <section className="w-full bg-surface py-space-64" id="doi-ngu">
       <div className="max-w-[1240px] mx-auto px-space-20 md:px-space-32">
@@ -45,38 +99,55 @@ export default function Instructors() {
             100% giảng viên tại Huyway English đạt chứng chỉ IELTS từ 8.0 trở lên cùng chứng chỉ sư phạm quốc tế, tận tâm theo dõi sự tiến bộ của từng học viên.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-space-24">
+
+        {/* Desktop (>= lg): lưới tĩnh 3 cột */}
+        <div className="hidden lg:grid grid-cols-3 gap-space-24">
           {TEACHERS.map((t) => (
-            <div
-              key={t.name}
-              className="bg-surface rounded-2xl overflow-hidden border border-hairline shadow-xs flex flex-col hover:shadow-md transition-shadow"
-            >
-              <div className="h-64 w-full bg-surface-slate relative overflow-hidden">
-                <img
-                  alt={`${t.name} - Chuyên gia luyện thi IELTS`}
-                  className={`w-full h-full object-cover ${t.objectPosition}`}
-                  src={t.photo}
-                />
-                <div className="absolute top-space-16 right-space-16 px-space-12 py-space-4 rounded-full bg-primary text-on-primary font-label-sm text-label-sm font-semibold shadow-sm">
-                  {t.score}
-                </div>
-              </div>
-              <div className="p-space-24 flex flex-col flex-1 justify-between bg-surface">
-                <div>
-                  <h3 className="font-headline text-title-sm text-ink font-semibold">{t.name}</h3>
-                  <p className="font-body-sm text-body-sm text-ink-muted mb-space-12">{t.role}</p>
-                  <div className="flex flex-wrap gap-space-8 mb-space-16">
-                    {t.tags.map((tag) => (
-                      <span key={tag} className="px-space-8 py-space-4 rounded-md bg-indigo-wash text-primary font-label-sm text-[12px] font-semibold">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <p className="font-body-sm text-body-sm text-ink-body leading-relaxed text-justify">{t.bio}</p>
-                </div>
-              </div>
-            </div>
+            <TeacherCard key={t.name} t={t} />
           ))}
+        </div>
+
+        {/* Mobile/Tablet (< lg): carousel scroll-snap 1 thẻ/viewport + nút Trước/Sau + dots (AC 8.2) */}
+        <div className="lg:hidden relative">
+          <div
+            ref={scrollerRef}
+            onScroll={handleScroll}
+            className="overflow-x-auto snap-x snap-mandatory scrollbar-none flex gap-4 -mx-4 px-4 pb-2"
+          >
+            {TEACHERS.map((t) => (
+              <div key={t.name} className="w-[calc(100vw-32px)] max-w-[396px] flex-shrink-0 snap-center">
+                <TeacherCard t={t} />
+              </div>
+            ))}
+          </div>
+          {TEACHERS.length > 1 && (
+            <div className="flex items-center justify-between mt-3 px-1">
+              <button
+                aria-label="Xem giáo viên trước"
+                type="button"
+                onClick={() => scrollByCard(-1)}
+                className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-surface border border-hairline flex items-center justify-center text-primary shadow-xs hover:bg-surface-slate active:scale-95 transition-all"
+              >
+                <span className="material-symbols-outlined text-[20px]">chevron_left</span>
+              </button>
+              <div className="flex items-center gap-1.5">
+                {TEACHERS.map((t, i) => (
+                  <span
+                    key={t.name}
+                    className={`h-1.5 rounded-full transition-all ${i === activeIndex ? 'w-5 bg-primary' : 'w-2 bg-hairline'}`}
+                  />
+                ))}
+              </div>
+              <button
+                aria-label="Xem giáo viên tiếp theo"
+                type="button"
+                onClick={() => scrollByCard(1)}
+                className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-surface border border-hairline flex items-center justify-center text-primary shadow-xs hover:bg-surface-slate active:scale-95 transition-all"
+              >
+                <span className="material-symbols-outlined text-[20px]">chevron_right</span>
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </section>

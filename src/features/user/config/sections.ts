@@ -1,20 +1,24 @@
 // HỢP ĐỒNG SECTION-ID — nguồn chân lý duy nhất cho menu Header, scroll-spy, smooth-scroll.
-// Đã cập nhật khớp docs/design export/code.html (2026-09-09): id/nhãn lấy verbatim từ export.
+// Đã cập nhật khớp docs/design-export/desktop|mobile/code.html (2026-09-10): id/nhãn lấy verbatim
+// từ export. Desktop chỉ hiện 5 mục trong `nav` (thanh header hẹp); drawer mobile (Header.tsx)
+// hiện đủ 8 mục — không lấy từ mảng này (chưa nối, xem docs/plan/02-*.md).
 
 export interface SectionDef {
   id: string;
-  /** Nhãn menu Header; null = anchor nội bộ, không có mục menu. */
+  /** Nhãn menu Header desktop; null = anchor nội bộ, không có mục menu ở thanh desktop. */
   nav: string | null;
 }
 
 export const SECTIONS: readonly SectionDef[] = [
   { id: 'top', nav: null },
   { id: 've-chung-toi', nav: 'Về chúng tôi' },
+  { id: 'cong-nghe-ung-dung', nav: 'Công nghệ ứng dụng' },
+  { id: 'rao-can', nav: null },
+  { id: 'quy-trinh', nav: null },
   { id: 'lo-trinh-hoc', nav: 'Lộ trình học' },
-  { id: 'quy-trinh', nav: 'Quy trình 3 bước' },
   { id: 'doi-ngu', nav: 'Đội ngũ giáo viên' },
-  { id: 'cam-nhan-hoc-vien', nav: 'Cảm nhận học viên' },
-  { id: 'cam-ket', nav: 'Cam kết đầu ra' },
+  { id: 'cam-nhan-hoc-vien', nav: null },
+  { id: 'cam-ket', nav: null },
   { id: 'faq', nav: 'FAQ' },
   { id: 'dang-ky', nav: null },
 ] as const;

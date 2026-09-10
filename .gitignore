@@ -34,3 +34,4 @@ dist-ssr
 # TypeScript build cache
 *.tsbuildinfo
 .tmp-logo-extract
+.tmp-docx-read

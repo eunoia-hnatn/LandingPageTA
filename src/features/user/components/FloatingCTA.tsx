@@ -4,7 +4,7 @@ export default function FloatingCTA() {
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
       <a
         aria-label="Cuộn lên đầu trang"
-        className="w-10 h-10 rounded-full bg-surface shadow-md border border-hairline flex items-center justify-center text-primary hover:bg-surface-slate transition-all"
+        className="hidden sm:flex w-10 h-10 rounded-full bg-surface shadow-md border border-hairline items-center justify-center text-primary hover:bg-surface-slate transition-all"
         href="#top"
       >
         <span className="material-symbols-outlined text-[20px]">keyboard_arrow_up</span>

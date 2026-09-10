@@ -4,6 +4,7 @@ import FloatingCTA from '@user/components/FloatingCTA';
 import Hero from '@user/sections/Hero';
 import TrustBar from '@user/sections/TrustBar';
 import AboutValues from '@user/sections/AboutValues';
+import TechShowcase from '@user/sections/TechShowcase';
 import PainPoints from '@user/sections/PainPoints';
 import ProcessSteps from '@user/sections/ProcessSteps';
 import Courses from '@user/sections/Courses';
@@ -29,6 +30,7 @@ export default function LandingPage() {
           <Hero />
           <TrustBar />
           <AboutValues />
+          <TechShowcase />
           <PainPoints />
           <ProcessSteps />
           <Courses />

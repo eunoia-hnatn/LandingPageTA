@@ -92,13 +92,13 @@ export default function Commitment() {
       {/* MODAL ĐIỀU KIỆN CAM KẾT */}
       {open && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-space-16 bg-black/60 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-space-16 bg-black/60 backdrop-blur-sm"
           onMouseDown={(e) => {
             if (e.target === e.currentTarget) setOpen(false);
           }}
         >
           <div
-            className="bg-surface rounded-3xl max-w-[640px] w-full p-space-32 shadow-2xl max-h-[90vh] overflow-y-auto border border-hairline"
+            className="bg-surface rounded-t-3xl sm:rounded-3xl max-w-[640px] w-full p-space-32 shadow-2xl h-[90vh] sm:h-auto max-h-[90vh] overflow-y-auto border border-hairline"
             role="dialog"
             aria-modal="true"
             aria-label="Điều kiện cam kết đầu ra"

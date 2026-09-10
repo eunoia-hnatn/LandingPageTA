@@ -28,7 +28,7 @@ const PAINS = [
 
 export default function PainPoints() {
   return (
-    <section className="w-full bg-surface-slate py-space-64 border-y border-hairline">
+    <section className="w-full bg-surface-slate py-space-64 border-y border-hairline" id="rao-can">
       <div className="max-w-[1240px] mx-auto px-space-20 md:px-space-32">
         <div className="flex flex-col items-center text-center mb-space-48 max-w-2xl mx-auto">
           <span className="px-space-16 py-space-4 rounded-full bg-indigo-wash text-primary font-label-sm text-label-sm font-semibold mb-space-12 border border-primary/20">
