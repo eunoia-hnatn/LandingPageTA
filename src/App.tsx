@@ -8,7 +8,6 @@ import { LoginPage } from "@/pages/LoginPage";
 import { Dashboard } from "@/pages/Dashboard";
 import { ContentLandingPage } from "@/pages/ContentLandingPage";
 import { CustomersPage } from "@/pages/CustomersPage";
-import { BudgetPermissionsPage } from "@/pages/BudgetPermissionsPage";
 import { StaffPage } from "@/pages/StaffPage";
 import { CoursesPage } from "@/pages/CoursesPage";
 import { LeadsManagementPage } from "@/pages/LeadsManagementPage";
@@ -20,7 +19,6 @@ const PAGES: Record<string, ComponentType> = {
   overview: Dashboard,
   content: ContentLandingPage,
   customers: CustomersPage,
-  budget: BudgetPermissionsPage,
   staff: StaffPage,
   courses: CoursesPage,
   leads: LeadsManagementPage,

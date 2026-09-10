@@ -22,10 +22,23 @@ function phoneAt(i: number) {
   return `09${(12345678 + i * 137) % 90000000 + 10000000}`.slice(0, 10);
 }
 
+// Shared "current time" reference for the mock dataset so relative labels
+// ("2.5h trước", "Hôm qua"...) stay consistent across the app.
+export const MOCK_NOW = new Date("2026-09-08T13:45:00");
+
+function isoHoursAgo(hours: number) {
+  return new Date(MOCK_NOW.getTime() - hours * 3_600_000).toISOString();
+}
+
 const CUSTOMER_STATUSES: Customer["status"][] = ["new", "in-progress", "won", "lost"];
+
+// A couple of rows are deliberately kept just over the 2-hour SLA (and still
+// "new") so the overdue warning has something to demonstrate.
+const OVERDUE_DEMO_HOURS: Record<number, number> = { 0: 2.5, 4: 3.1 };
 
 export const CUSTOMERS: Customer[] = Array.from({ length: 24 }, (_, i) => {
   const name = nameAt(i);
+  const hoursAgo = OVERDUE_DEMO_HOURS[i] ?? (i * 5) % 96;
   return {
     id: `cust-${i + 1}`,
     name,
@@ -36,6 +49,7 @@ export const CUSTOMERS: Customer[] = Array.from({ length: 24 }, (_, i) => {
     status: CUSTOMER_STATUSES[i % CUSTOMER_STATUSES.length],
     assignee: CSKH[i % CSKH.length],
     createdAt: `0${(i % 9) + 1}/09/2026`,
+    createdAtISO: isoHoursAgo(hoursAgo),
   };
 });
 

@@ -26,6 +26,8 @@ export interface Customer {
   status: CustomerStatus;
   assignee: string;
   createdAt: string;
+  /** Full ISO datetime — used to compute the overdue-lead warning. */
+  createdAtISO: string;
 }
 
 // ---- Staff ----

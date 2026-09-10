@@ -4,6 +4,16 @@ export interface FieldSchema {
   key: string;
   label: string;
   type: "text" | "textarea";
+  maxLength?: number;
+  /** Fields sharing the same row key render side by side (2-column). */
+  row?: string;
+}
+
+export interface ImageAsset {
+  url: string;
+  fileName: string;
+  fileSize: number;
+  fileType: string;
 }
 
 interface BlockMeta {
@@ -19,6 +29,8 @@ export interface FormBlock extends BlockMeta {
   description: string;
   fields: FieldSchema[];
   values: Record<string, string>;
+  hasImage?: boolean;
+  image?: ImageAsset | null;
 }
 
 export interface ListBlock extends BlockMeta {
@@ -31,96 +43,93 @@ export interface ListBlock extends BlockMeta {
 
 export type LandingBlock = FormBlock | ListBlock;
 
+// Short bracketed label shown inside each section card's preview placeholder,
+// matching the wireframe (e.g. "[ Hero Section Banner ]").
+export const BLOCK_PREVIEW_LABEL: Record<string, string> = {
+  hero: "Hero Section Banner",
+  "trust-bar": "Trust Bar Stats",
+  "pain-points": "Pain Points List",
+  "course-roadmap": "Course Roadmap Steps",
+  "teacher-team": "Teacher Profiles",
+  testimonials: "Testimonials Carousel",
+  faq: "FAQ Accordion",
+  "outcome-commitment": "Outcome Commitment List",
+  "social-links": "Social Links Row",
+  "hotline-email": "Contact Info Card",
+};
+
 export const INITIAL_LANDING_BLOCKS: LandingBlock[] = [
   {
     id: "hero",
     kind: "form",
-    name: "Hero Banner",
-    description: "Tiêu đề, mô tả và nút kêu gọi hành động đầu trang landing page.",
+    name: "Hero Section (Trang Chủ)",
+    description: "Tiêu đề chính, tagline banner, nút Đăng Ký Tư Vấn & hình ảnh Hero chính.",
     status: "published",
-    updatedAt: "05/09/2026",
+    updatedAt: "10 phút trước",
     updatedBy: "Admin HuyWay",
+    hasImage: true,
+    image: null,
     fields: [
-      { key: "headline", label: "Tiêu đề chính", type: "text" },
-      { key: "subheadline", label: "Mô tả phụ", type: "textarea" },
-      { key: "ctaText", label: "Nội dung nút CTA", type: "text" },
+      { key: "headline", label: "Tiêu Đề Chính (Hero Headline)", type: "text", maxLength: 80 },
+      { key: "subheadline", label: "Mô Tả Ngắn (Subheadline)", type: "textarea", maxLength: 150 },
+      { key: "ctaText", label: "Text Nút CTA Chính", type: "text", maxLength: 30, row: "cta" },
+      { key: "promoBadge", label: "Text Badge Khuyến Mãi", type: "text", maxLength: 40, row: "cta" },
       { key: "ctaLink", label: "Liên kết nút CTA", type: "text" },
-      { key: "backgroundImage", label: "Ảnh nền (URL / mô tả)", type: "text" },
     ],
     values: {
-      headline: "Chinh phục IELTS cùng HuyWay English",
-      subheadline: "Lộ trình cá nhân hóa, cam kết đầu ra bằng văn bản, đồng hành cùng hơn 1.200 học viên.",
-      ctaText: "Đăng ký tư vấn miễn phí",
+      headline: "Bứt Phá Tiếng Anh Cùng HuyWay English",
+      subheadline: "Cam kết đầu ra IELTS 7.0+ & TOEIC 750+ bằng phương pháp cá nhân hóa chuẩn quốc tế. Đăng ký test trình độ miễn phí ngay hôm nay!",
+      ctaText: "Đăng Ký Tư Vấn Ngay",
+      promoBadge: "🔥 Ưu đãi 30% Học Phí Tháng Này",
       ctaLink: "/dang-ky",
-      backgroundImage: "hero-banner-ielts-camp.jpg",
     },
   },
   {
-    id: "trust-bar",
-    kind: "list",
-    name: "Trust Bar",
-    description: "Dải số liệu / chứng nhận tạo độ tin cậy ngay dưới Hero.",
-    status: "published",
-    updatedAt: "03/09/2026",
+    id: "about",
+    kind: "form",
+    name: "Giới Thiệu HuyWay",
+    description: "Phương pháp học độc quyền, tầm nhìn sứ mệnh, con số ấn tượng.",
+    status: "draft",
+    updatedAt: "",
     updatedBy: "Phạm Gia Bảo",
-    itemLabel: "chỉ số",
     fields: [
-      { key: "value", label: "Số liệu", type: "text" },
-      { key: "label", label: "Mô tả", type: "text" },
+      { key: "title", label: "Tiêu đề", type: "text", maxLength: 80 },
+      { key: "body", label: "Nội dung giới thiệu", type: "textarea", maxLength: 400 },
+      { key: "highlight", label: "Con số ấn tượng nổi bật", type: "text", maxLength: 60 },
     ],
-    items: [
-      { value: "1.200+", label: "Học viên đã theo học" },
-      { value: "8 năm", label: "Kinh nghiệm đào tạo IELTS" },
-      { value: "7.5+", label: "Điểm IELTS trung bình đầu ra" },
-      { value: "98%", label: "Học viên hài lòng" },
-    ],
+    values: {
+      title: "Phương Pháp Học Độc Quyền HuyWay",
+      body: "8 năm nghiên cứu chuyên sâu về khảo thí IELTS/TOEIC, kết hợp lộ trình cá nhân hóa theo từng học viên và đội ngũ giáo viên bản địa hoá.",
+      highlight: "1.200+ học viên đã đạt mục tiêu đầu ra",
+    },
   },
   {
-    id: "pain-points",
+    id: "courses",
     kind: "list",
-    name: "Pain Points",
-    description: "Những nỗi trăn trở của học viên mà khóa học giải quyết.",
+    name: "Khóa Học Nổi Bật",
+    description: "Lộ trình IELTS, TOEIC, Giao tiếp, Tiếng Anh Nền Tảng.",
     status: "published",
-    updatedAt: "01/09/2026",
-    updatedBy: "Phạm Gia Bảo",
-    itemLabel: "nỗi đau",
-    fields: [
-      { key: "title", label: "Tiêu đề", type: "text" },
-      { key: "description", label: "Mô tả", type: "textarea" },
-    ],
-    items: [
-      { title: "Mất gốc, không biết bắt đầu từ đâu", description: "Chương trình xây nền tảng bài bản từ phát âm đến ngữ pháp." },
-      { title: "Học mãi không tăng band điểm", description: "Chấm chữa bài Speaking/Writing 1-kèm-1 theo checklist giám khảo." },
-      { title: "Không có thời gian đến lớp cố định", description: "Lịch học linh hoạt sáng/tối, học bù không giới hạn." },
-    ],
-  },
-  {
-    id: "course-roadmap",
-    kind: "list",
-    name: "Lộ trình khóa học",
-    description: "Các giai đoạn học tương ứng với band điểm mục tiêu.",
-    status: "published",
-    updatedAt: "30/08/2026",
+    updatedAt: "2 ngày trước",
     updatedBy: "Admin HuyWay",
-    itemLabel: "giai đoạn",
+    itemLabel: "khóa học",
     fields: [
-      { key: "step", label: "Giai đoạn", type: "text" },
-      { key: "title", label: "Tên giai đoạn", type: "text" },
-      { key: "description", label: "Mô tả", type: "textarea" },
+      { key: "name", label: "Tên khóa học", type: "text" },
+      { key: "description", label: "Mô tả ngắn", type: "textarea" },
     ],
     items: [
-      { step: "01", title: "Xây nền tảng (0 → 4.5)", description: "Phát âm, 800 từ vựng lõi, ngữ pháp căn bản." },
-      { step: "02", title: "Phát triển kỹ năng (4.5 → 6.0)", description: "4 kỹ năng Nghe Nói Đọc Viết theo dạng đề thi thật." },
-      { step: "03", title: "Luyện đề & tăng tốc (6.0 → 7.5+)", description: "Giải đề dưới áp lực thời gian, chữa lỗi chuyên sâu." },
+      { name: "IELTS Intensive", description: "Luyện thi cấp tốc, cam kết đầu ra bằng văn bản." },
+      { name: "TOEIC 550+", description: "Đột phá điểm số trong 3 tháng cho người đi làm." },
+      { name: "Giao tiếp Doanh nghiệp", description: "Tự tin giao tiếp trong môi trường công sở quốc tế." },
+      { name: "Tiếng Anh Nền Tảng", description: "Xây lại gốc cho người mất căn bản hoàn toàn." },
     ],
   },
   {
     id: "teacher-team",
     kind: "list",
-    name: "Đội ngũ giáo viên",
-    description: "Hồ sơ giảng viên hiển thị trên landing page.",
+    name: "Đội Ngũ Giáo Viên",
+    description: "Chân dung giảng viên, bằng cấp 8.5 IELTS, kinh nghiệm giảng dạy.",
     status: "published",
-    updatedAt: "28/08/2026",
+    updatedAt: "1 tuần trước",
     updatedBy: "Admin HuyWay",
     itemLabel: "giáo viên",
     fields: [
@@ -136,10 +145,10 @@ export const INITIAL_LANDING_BLOCKS: LandingBlock[] = [
   {
     id: "testimonials",
     kind: "list",
-    name: "Testimonials",
-    description: "Cảm nhận thực tế từ học viên đã đạt mục tiêu đầu ra.",
+    name: "Cảm Nhận Học Viên",
+    description: "Testimonials thực tế từ học viên đã đạt mục tiêu đầu ra.",
     status: "draft",
-    updatedAt: "27/08/2026",
+    updatedAt: "3 tuần trước",
     updatedBy: "Phạm Gia Bảo",
     itemLabel: "cảm nhận",
     fields: [
@@ -155,10 +164,10 @@ export const INITIAL_LANDING_BLOCKS: LandingBlock[] = [
   {
     id: "faq",
     kind: "list",
-    name: "Câu hỏi thường gặp",
+    name: "Câu Hỏi Thường Gặp",
     description: "Giải đáp thắc mắc phổ biến trước khi khách đăng ký.",
     status: "published",
-    updatedAt: "20/08/2026",
+    updatedAt: "1 tháng trước",
     updatedBy: "Admin HuyWay",
     itemLabel: "câu hỏi",
     fields: [
@@ -171,47 +180,12 @@ export const INITIAL_LANDING_BLOCKS: LandingBlock[] = [
     ],
   },
   {
-    id: "outcome-commitment",
-    kind: "list",
-    name: "Cam kết đầu ra",
-    description: "Các điều khoản cam kết chất lượng gửi tới học viên.",
-    status: "published",
-    updatedAt: "18/08/2026",
-    updatedBy: "Admin HuyWay",
-    itemLabel: "cam kết",
-    fields: [{ key: "item", label: "Nội dung cam kết", type: "textarea" }],
-    items: [
-      { item: "Cam kết bằng văn bản đạt band điểm mục tiêu hoặc học lại miễn phí." },
-      { item: "Hoàn 50% học phí nếu không đạt đầu ra sau khi học đủ lộ trình." },
-      { item: "Giáo viên đồng hành xuyên suốt, không đổi lớp giữa khóa." },
-    ],
-  },
-  {
-    id: "social-links",
-    kind: "list",
-    name: "Social links",
-    description: "Liên kết mạng xã hội hiển thị ở Hero và Footer.",
-    status: "published",
-    updatedAt: "15/08/2026",
-    updatedBy: "Phạm Gia Bảo",
-    itemLabel: "liên kết",
-    fields: [
-      { key: "platform", label: "Nền tảng", type: "text" },
-      { key: "url", label: "Đường dẫn", type: "text" },
-    ],
-    items: [
-      { platform: "Facebook", url: "https://facebook.com/huywayenglish" },
-      { platform: "TikTok", url: "https://tiktok.com/@huywayenglish" },
-      { platform: "YouTube", url: "https://youtube.com/@huywayenglish" },
-    ],
-  },
-  {
     id: "hotline-email",
     kind: "form",
     name: "Hotline / Email",
     description: "Thông tin liên hệ trực tiếp hiển thị trên toàn trang.",
     status: "published",
-    updatedAt: "15/08/2026",
+    updatedAt: "1 tháng trước",
     updatedBy: "Admin HuyWay",
     fields: [
       { key: "hotline", label: "Số Hotline", type: "text" },
