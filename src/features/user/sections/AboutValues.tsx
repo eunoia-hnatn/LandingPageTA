@@ -1,5 +1,21 @@
+import { useEffect, useState } from "react";
+import { supabase } from "../../../lib/supabase";
 // MODULE 4: VỀ CHÚNG TÔI & GIÁ TRỊ KHÁC BIỆT — port 1:1 từ docs/design export/code.html.
 export default function AboutValues() {
+  const [sectionData, setSectionData] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await supabase
+        .from('landing_content')
+        .select('*')
+        .eq('section_name', 'about') 
+        .single();
+
+      if (data) setSectionData(data);
+    };
+    fetchData();
+  }, []);
   return (
     <section className="w-full bg-surface py-space-64" id="ve-chung-toi">
       <div className="max-w-[1240px] mx-auto px-space-20 md:px-space-32">
@@ -7,9 +23,9 @@ export default function AboutValues() {
           <span className="px-space-16 py-space-4 rounded-full bg-indigo-wash text-primary font-label-sm text-label-sm font-semibold mb-space-12 border border-primary/20">
             Về Huyway English
           </span>
-          <h2 className="font-headline text-headline text-ink font-bold">Vì sao chọn Huyway English</h2>
+          <h2 className="font-headline text-headline text-ink font-bold">{sectionData?.headline}</h2>
           <p className="font-body-md text-body-md text-ink-body mt-space-8 text-justify sm:text-center leading-relaxed">
-            Hệ thống đào tạo xây dựng trên nền tảng tư duy ngôn ngữ học thuật thực chiến, kiên định với chất lượng đầu ra thực chất thay vì các mẹo vặt ngắn hạn.
+            {sectionData?.subheadline}
           </p>
         </div>
         {/* Sứ mệnh & Tầm nhìn */}
