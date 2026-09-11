@@ -105,23 +105,37 @@ export function ContentLandingPage() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const values = (draft as any).values || {};
 
-    // Chỉ gọi Supabase nếu section đang sửa có liên quan đến Hero
-    if (draft.id === "hero" || draft.name.includes("Hero")) {
+    // 1. Xác định section nào đang được lưu dựa vào tên của section (draft.name)
+    let sectionNameDB = "";
+    if (draft.name.includes("Hero")) sectionNameDB = "hero";
+    else if (draft.name.includes("Giới Thiệu")) sectionNameDB = "about";
+    else if (draft.name.includes("Khóa Học")) sectionNameDB = "courses";
+    else if (draft.name.includes("Giáo Viên")) sectionNameDB = "teachers";
+    else if (draft.name.includes("Cảm Nhận")) sectionNameDB = "testimonials";
+    else if (draft.name.includes("Câu Hỏi")) sectionNameDB = "faq";
+    else if (draft.name.includes("Thực trạng")) sectionNameDB = "pain_points";
+    else if (draft.name.includes("Banner CTA")) sectionNameDB = "cta_banner";
+    else if (draft.name.includes("Phương Pháp")) sectionNameDB = "methodology";
+    else sectionNameDB = "cta";
+
+    // 2. Đẩy dữ liệu lên dòng tương ứng trên Supabase
+    if (sectionNameDB) {
       const { error } = await supabase
         .from('landing_content')
         .update({
           headline: values.headline,
           subheadline: values.subheadline,
-          cta_text: values.ctaText || values.cta_text, 
-          badge_text: values.promoBadge || values.badgeText || values.badge_text
+          cta_text: values.ctaText || values.cta_text,
+          badge_text: values.promoBadge || values.badgeText || values.badge_text,
+          image_url: values.image || values.imageUrl || values.image_url
         })
-        .eq('section_name', 'hero');
+        .eq('section_name', sectionNameDB);
 
       if (error) {
         console.error("Chi tiết lỗi Supabase:", error.message);
         alert("Lỗi! Không thể đồng bộ lên Supabase.");
         setIsSyncing(false);
-        return; 
+        return;
       }
     }
 

@@ -198,4 +198,58 @@ export const INITIAL_LANDING_BLOCKS: LandingBlock[] = [
       workingHours: "8:00 - 21:00, Thứ 2 - Chủ nhật",
     },
   },
+  {
+    id: "pain_points",
+    kind: "form",
+    name: "Thực trạng học viên",
+    description: "Câu hỏi gợi mở và các vấn đề học viên đang gặp phải.",
+    status: "draft",
+    updatedAt: "Vừa xong",
+    updatedBy: "Admin",
+    hasImage: false,
+    fields: [
+      { key: "headline", label: "Tiêu Đề (Headline)", type: "text", maxLength: 100 },
+      { key: "subheadline", label: "Mô Tả Ngắn (Subheadline)", type: "textarea", maxLength: 300 }
+    ],
+    values: {
+      headline: "Bạn có đang gặp phải?",
+      subheadline: ""
+    }
+  },
+  {
+    id: "cta_banner",
+    kind: "form",
+    name: "Banner CTA",
+    description: "Banner kêu gọi hành động (Call to Action) để thu hút sự chú ý của người dùng.",
+    status: "draft",
+    updatedAt: "Vừa xong",
+    updatedBy: "Admin",
+    hasImage: false,
+    fields: [
+      { key: "headline", label: "Tiêu Đề (Headline)", type: "text", maxLength: 100 },
+      { key: "subheadline", label: "Mô Tả Ngắn (Subheadline)", type: "textarea", maxLength: 300 }
+    ],
+    values: {
+      headline: "Sẵn sàng chih phục IELTS?",
+      subheadline: ""
+    }
+  },
+  {
+    id: "methodology",
+    kind: "form",
+    name: "Phương Pháp Học",
+    description: "Giới thiệu về phương pháp giảng dạy và học tập của chúng tôi.",
+    status: "draft",
+    updatedAt: "Vừa xong",
+    updatedBy: "Admin",
+    hasImage: false,
+    fields: [
+      { key: "headline", label: "Tiêu Đề (Headline)", type: "text", maxLength: 100 },
+      { key: "subheadline", label: "Mô Tả Ngắn (Subheadline)", type: "textarea", maxLength: 300 }
+    ],
+    values: {
+      headline: "Hệ thống đào tạo độc quyền",
+      subheadline: ""
+    }
+  },
 ];
