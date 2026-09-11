@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { supabase } from "../../../lib/supabase";
 // MODULE 5: NHẬN DIỆN VẤN ĐỀ (PAIN POINTS) — port 1:1 từ docs/design export/code.html.
 const PAINS = [
   {
@@ -27,6 +29,20 @@ const PAINS = [
 ];
 
 export default function PainPoints() {
+  const [sectionData, setSectionData] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await supabase
+        .from('landing_content')
+        .select('*')
+        .eq('section_name', 'pain_points') 
+        .single();
+
+      if (data) setSectionData(data);
+    };
+    fetchData();
+  }, []);
   return (
     <section className="w-full bg-surface-slate py-space-64 border-y border-hairline" id="rao-can">
       <div className="max-w-[1240px] mx-auto px-space-20 md:px-space-32">
@@ -34,9 +50,9 @@ export default function PainPoints() {
           <span className="px-space-16 py-space-4 rounded-full bg-indigo-wash text-primary font-label-sm text-label-sm font-semibold mb-space-12 border border-primary/20">
             Bạn có đang gặp phải?
           </span>
-          <h2 className="font-headline text-headline text-ink font-bold">Những rào cản thường gặp khi tự học IELTS</h2>
+          <h2 className="font-headline text-headline text-ink font-bold">{sectionData?.headline}</h2>
           <p className="font-body-md text-body-md text-ink-body mt-space-8 text-justify sm:text-center leading-relaxed">
-            Tự học IELTS không sai, nhưng thiếu định hướng bài bản khiến hơn 80% người học mất trung bình từ 6 đến 18 tháng mà không đạt được mốc điểm mong muốn.
+            {sectionData?.subheadline}
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-20">

@@ -1,10 +1,25 @@
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
+import { supabase } from "../../../lib/supabase";
 
 // MODULE 2: HERO SECTION — port 1:1 từ docs/design export/code.html.
 // Form hiện là UI tĩnh (chỉ đổi trạng thái hiển thị "Cảm ơn") — nối vào submit-lead/<LeadForm>
 // thật ở lượt sau (logic), theo đúng yêu cầu "copy giao diện trước, thay logic sau".
 export default function Hero() {
   const [submitted, setSubmitted] = useState(false);
+  const [heroData, setHeroData] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchHeroData = async () => {
+      const { data } = await supabase
+        .from('landing_content')
+        .select('*')
+        .eq('section_name', 'hero')
+        .single();
+
+      if (data) setHeroData(data);
+    };
+    fetchHeroData();
+  }, []);
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -26,19 +41,19 @@ export default function Hero() {
             <img
               alt="Hero Image Placeholder Tách Nền"
               className="w-full max-w-[420px] lg:max-w-full h-auto object-contain select-none drop-shadow-xl"
-              src="https://lh3.googleusercontent.com/aida/AEtjO1UXNU8Schzu0k_B_Ai1pwfAKEACXKLX41HXQXuDs3ATWUXAK5tCTyWxyvGixcvelxI1-8l3dJ7M4eHqSk_i8LWit8eaXY9j-O_wlMemWJoHrnigCUJYyGuKBOTopwpke6uXUBtnqmDemiwfJKaB4vmUFu5rwU6e2NytXBjeqYRZ0IpQmKMIKBQYTkzt71SaYmlPAaNXrhlGe0deXSWHUbDR6tv7-1nRhJ0ByUgrNUTg2hZV0lr5Fhau-9n0"
+              src={heroData && heroData.image_url ? heroData.image_url : "https://lh3.googleusercontent.com/aida/AEtj01UXNU8Schzu0k_B_Ai1pwfAKEACXKLX41HXQXuDs3ATWUXAK5tC"}
             />
           </div>
           {/* Cột phải (~55%): Eyebrow, H1, mô tả, thẻ form */}
           <div className="lg:col-span-7 flex flex-col order-1 lg:order-2">
             <div className="inline-flex items-center gap-space-8 px-space-16 py-space-4 rounded-full bg-[#F1F2FC] text-[#2C3481] font-semibold text-label-sm mb-space-16 w-fit">
-              <span>Học để dùng. Học để đi xa.</span>
+              <span>{heroData?.badge_text}</span>
             </div>
             <h1 className="font-headline text-[34px] lg:text-[40px] leading-[1.2] text-[#000000] font-semibold tracking-tight mb-space-12">
-              Chưa biết nên bắt đầu <span className="underline decoration-[#ff9327] decoration-4 underline-offset-8">IELTS</span> từ đâu?
+              {heroData?.headline}
             </h1>
             <p className="font-body-md text-base text-[#717174] leading-relaxed mb-space-24">
-              Kiểm tra trình độ chuẩn Cambridge 4 kỹ năng và nhận bản đồ lộ trình học tinh gọn, bám sát năng lực thực tế.
+              {heroData?.subheadline}
             </p>
             <div className="bg-surface rounded-[20px] p-space-28 lg:p-space-32 border border-[#E2E8F0] shadow-sm relative">
               <div className="mb-space-20">
@@ -116,7 +131,7 @@ export default function Hero() {
                     className="w-full h-12 bg-secondary-container hover:bg-orange-hover text-white font-semibold text-label-lg rounded-xl shadow-[0_8px_16px_rgba(255,147,39,0.28)] transition-all flex items-center justify-center gap-space-8 active:scale-[0.98] mt-1"
                     type="submit"
                   >
-                    <span>Kiểm tra trình độ miễn phí</span>
+                    {heroData?.cta_text}
                     <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
                   </button>
                   <p className="text-center font-normal text-[12px] text-[#8A8A8D] mt-3">

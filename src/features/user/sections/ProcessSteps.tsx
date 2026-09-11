@@ -1,4 +1,7 @@
-// MODULE 6: QUY TRÌNH 3 BƯỚC — port 1:1 từ docs/design-export/desktop/code.html (lưới 3 cột)
+import { useEffect, useState } from "react";
+import { supabase } from "../../../lib/supabase";
+// MODULE 6: Q
+// UY TRÌNH 3 BƯỚC — port 1:1 từ docs/design-export/desktop/code.html (lưới 3 cột)
 // hợp nhất docs/design-export/mobile/code.html (vertical stepper có đường nối dọc).
 const STEPS = [
   {
@@ -25,6 +28,33 @@ const STEPS = [
 ];
 
 export default function ProcessSteps() {
+  const [sectionData, setSectionData] = useState<any>(null);
+  const [bannerData, setBannerData] = useState<any>(null); // Biến mới cho Banner
+
+  useEffect(() => {
+    // 1. Kéo dữ liệu Phương pháp học
+    const fetchMethodology = async () => {
+      const { data } = await supabase
+        .from('landing_content')
+        .select('*')
+        .eq('section_name', 'methodology')
+        .single();
+      if (data) setSectionData(data);
+    };
+
+    // 2. Kéo dữ liệu Banner CTA
+    const fetchBanner = async () => {
+      const { data } = await supabase
+        .from('landing_content')
+        .select('*')
+        .eq('section_name', 'cta_banner')
+        .single();
+      if (data) setBannerData(data);
+    };
+
+    fetchMethodology();
+    fetchBanner();
+  }, []);
   return (
     <section className="w-full bg-surface py-space-64" id="quy-trinh">
       <div className="max-w-[1240px] mx-auto px-space-20 md:px-space-32">
@@ -32,9 +62,9 @@ export default function ProcessSteps() {
           <span className="px-space-16 py-space-4 rounded-full bg-indigo-wash text-primary font-label-sm text-label-sm font-semibold mb-space-12 border border-primary/20">
             Quy trình tinh gọn
           </span>
-          <h2 className="font-headline text-headline text-ink font-bold">3 bước để có lộ trình IELTS của riêng bạn</h2>
+          <h2 className="font-headline text-headline text-ink font-bold">{sectionData?.headline}</h2>
           <p className="font-body-md text-body-md text-ink-body mt-space-8 text-justify sm:text-center leading-relaxed">
-            Hệ thống khảo thí và phân tích học lực chuẩn xác giúp bạn định vị đúng điểm xuất phát và vạch rõ chặng đường tới band mục tiêu.
+            {sectionData?.subheadline}
           </p>
         </div>
 
@@ -80,9 +110,9 @@ export default function ProcessSteps() {
         {/* CTA Band */}
         <div className="w-full bg-primary-container text-on-primary rounded-3xl p-space-32 md:p-space-48 flex flex-col md:flex-row items-center justify-between gap-space-24 shadow-md">
           <div className="space-y-space-4 text-center md:text-left">
-            <h3 className="font-headline text-title-lg md:text-headline text-on-primary font-bold">Sẵn sàng bắt đầu bứt phá IELTS?</h3>
+            <h3 className="font-headline text-title-lg md:text-headline text-on-primary font-bold">{bannerData?.headline}</h3>
             <p className="font-body-md text-body-md text-on-primary/80">
-              Miễn phí • 60 giây đăng ký • Nhận phản hồi chuyên môn chi tiết trong 24 giờ.
+              {bannerData?.subheadline}
             </p>
           </div>
           <a
