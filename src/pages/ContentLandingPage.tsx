@@ -167,10 +167,14 @@ export function ContentLandingPage() {
         subtitle="Chỉnh sửa text, hình ảnh và live preview giao diện trực tiếp trước khi Publish lên Google Sheets."
         actions={
           <>
-            <Button variant="outline" size="sm">
-              <ExternalLink className="h-3.5 w-3.5" />
-              Xem trang live
-            </Button>
+            <Button 
+  variant="outline" 
+  size="sm"
+  onClick={() => window.open('https://landing-page-ta-kappa.vercel.app/#top', '_blank')}
+>
+  <ExternalLink className="h-3.5 w-3.5 mr-1.5" />
+  Xem trang live
+</Button>
             <Button variant="outline" size="sm" onClick={() => setIsVersionsOpen(true)}>
               <Clock className="h-3.5 w-3.5" />
               Lịch Sử Chỉnh Sửa (Versions)
@@ -226,7 +230,7 @@ export function ContentLandingPage() {
       </div>
 
       {draft && savedSelected && (
-        <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {/* Left: edit form */}
           <Card className="flex flex-col">
             <div className="border-b border-[var(--color-border)] p-5">

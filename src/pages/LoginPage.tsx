@@ -3,6 +3,7 @@ import { Loader2, Lock, Mail } from "lucide-react";
 import { useAuth } from "@/lib/use-auth";
 import { Button } from "@/components/ui/button";
 import { SEED_ACCOUNTS, ROLE_LABEL } from "@/data/mockAuth";
+import logoUrl from "../../HUYWAY_Logo.svg";
 
 export function LoginPage() {
   const { login } = useAuth();
@@ -26,9 +27,7 @@ export function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-[var(--color-bg)] px-4 py-10">
       <div className="w-full max-w-sm">
         <div className="mb-6 flex flex-col items-center gap-2 text-center">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--color-primary)] text-lg font-bold text-white">
-            H
-          </div>
+          <img src={logoUrl} alt="HuyWay" className="h-16 w-24 object-contain" />
           <h1 className="text-[16px] font-bold tracking-tight text-[var(--color-text)]">HUYWAY ENGLISH</h1>
           <p className="text-[12px] text-[var(--color-text-secondary)]">Internal Admin System</p>
         </div>

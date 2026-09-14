@@ -128,7 +128,14 @@ export function LeadsManagementPage() {
         actions={
           isEditor && (
             <>
-              <Button variant="outline" size="sm" onClick={handleSync}>
+              <Button 
+  variant="outline" 
+  size="sm" 
+  onClick={() => {
+    handleSync();
+    window.open('https://docs.google.com/spreadsheets/d/ID_TRANG_TINH_CUA_BAN/edit', '_blank');
+  }}
+>
                 <RefreshCw className={cn("h-3.5 w-3.5", isSyncing && "animate-spin")} />
                 {isSyncing ? "Đang đồng bộ..." : "Đồng bộ Google Sheets"}
               </Button>

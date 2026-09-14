@@ -1,6 +1,7 @@
 import { ChevronsLeft, ChevronsRight, X } from "lucide-react";
 import type { NavItem } from "@/types/dashboard";
 import { cn } from "@/lib/utils";
+import logoUrl from "../../../HUYWAY_Logo.svg";
 
 interface SidebarProps {
   items: NavItem[];
@@ -35,7 +36,7 @@ export function Sidebar({
       <aside
         className={cn(
           "fixed inset-y-0 left-0 z-50 flex flex-col border-r border-[var(--color-border)] bg-white transition-transform duration-200 ease-out lg:translate-x-0",
-          isCollapsed ? "lg:w-[76px]" : "lg:w-[240px]",
+          isCollapsed ? "lg:w-[76px]" : "lg:w-[200px]",
           "w-[260px]",
           isMobileOpen ? "translate-x-0" : "-translate-x-full",
         )}
@@ -43,9 +44,7 @@ export function Sidebar({
         {/* Logo */}
         <div className="flex h-16 shrink-0 items-center justify-between gap-2 border-b border-[var(--color-border)] px-4">
           <div className="flex items-center gap-2.5 overflow-hidden">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--color-primary)] text-sm font-bold text-white">
-              H
-            </div>
+            <img src={logoUrl} alt="HuyWay" className={cn("h-9 w-auto shrink-0 object-contain", isCollapsed ? "max-w-9" : "max-w-[116px]")} />
             {!isCollapsed && (
               <div className="min-w-0 leading-tight">
                 <p className="truncate text-[13px] font-bold tracking-tight text-[var(--color-text)]">
@@ -97,7 +96,7 @@ export function Sidebar({
                         isActive ? "text-[var(--color-primary)]" : "text-gray-400 group-hover:text-gray-600",
                       )}
                     />
-                    {!isCollapsed && <span className="truncate">{item.label}</span>}
+                    {!isCollapsed && <span className="whitespace-normal text-left leading-snug">{item.label}</span>}
                     {!isCollapsed && item.badge && (
                       <span className="ml-auto inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1.5 text-[10px] font-semibold text-white">
                         {item.badge}
@@ -124,12 +123,12 @@ export function Sidebar({
             </span>
             {!isCollapsed && (
               <div className="min-w-0 leading-tight">
-                <p className="truncate text-[11px] font-semibold text-[var(--color-text)]">
+                <span className="whitespace-normal text-[13px] font-semibold text-[var(--color-text)]">
                   Google Sheets API Active
-                </p>
-                <p className="truncate text-[10px] text-[var(--color-text-secondary)]">
+                </span>
+                <span className="whitespace-normal text-[12px] text-[var(--color-text-secondary)]">
                   Tự động đồng bộ mỗi 5 phút
-                </p>
+                </span>
               </div>
             )}
           </div>

@@ -20,7 +20,7 @@ import type {
 export const NAV_ITEMS: NavItem[] = [
   { id: "overview", label: "Tổng quan", icon: LayoutGrid },
   { id: "content", label: "Quản lý Content Landing", icon: FileEdit },
-  { id: "customers", label: "Danh sách khách hàng", icon: Users2, badge: 3 },
+  { id: "customers", label: "Danh sách khách hàng", icon: Users2}, //badge: "" hiển thị số tbao bên cạnh
   { id: "staff", label: "Quản lý nhân viên", icon: UserCog },
   { id: "courses", label: "Quản lý khóa học", icon: GraduationCap },
   { id: "leads", label: "Quản lý Leads", icon: Target },
