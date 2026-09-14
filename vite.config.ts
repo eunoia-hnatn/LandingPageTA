@@ -8,6 +8,9 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(import.meta.dirname, './src'),
+      '@user': path.resolve(import.meta.dirname, './src/features/user'),
+      '@admin': path.resolve(import.meta.dirname, './src/features/admin'),
+      '@shared': path.resolve(import.meta.dirname, './src/shared'),
     },
   },
   server: {

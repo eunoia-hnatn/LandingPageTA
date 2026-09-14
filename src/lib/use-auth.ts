@@ -1,8 +1,3 @@
-import { useContext } from "react";
-import { AuthContext } from "@/lib/auth-context-def";
-
-export function useAuth() {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used within an AuthProvider");
-  return ctx;
-}
+// Giữ đường import cũ (@/lib/use-auth) — nguồn thật ở lớp shared.
+export { useAuth } from "@/shared/contexts/AuthContext";
+export type { Profile, AuthStatus } from "@/shared/contexts/AuthContext";

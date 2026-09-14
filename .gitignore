@@ -21,3 +21,17 @@ dist-ssr
 *.sln
 *.sw?
 .env
+.agent/
+.agents/
+.claude/
+.codex/
+.cursor/
+.gemini/
+.impeccable/
+.kiro/
+.bolt/
+.npm-cache/
+# TypeScript build cache
+*.tsbuildinfo
+.tmp-logo-extract
+.tmp-docx-read

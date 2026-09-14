@@ -1,0 +1,9 @@
+# Supabase CLI config — project: hrbibbadjrimkyhbvyov
+# Docs: https://supabase.com/docs/guides/local-development/cli/config
+project_id = "hrbibbadjrimkyhbvyov"
+
+[functions.admin-users]
+verify_jwt = true
+
+[functions.submit-lead]
+verify_jwt = false

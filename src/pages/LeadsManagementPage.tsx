@@ -49,8 +49,8 @@ function formatSyncTime(date: Date) {
 }
 
 export function LeadsManagementPage() {
-  const { currentUser } = useAuth();
-  const isEditor = currentUser ? canEdit("leads", currentUser.role) : false;
+  const { profile } = useAuth();
+  const isEditor = profile ? canEdit("leads", profile.role) : false;
 
   const [leads, setLeads] = useState<LeadRow[]>(LEAD_ROWS);
   const [tab, setTab] = useState<LeadStatus | "all">("all");

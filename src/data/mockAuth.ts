@@ -1,17 +1,8 @@
-import type { Account, Role } from "@/types/auth";
+import type { Role } from "@/types/auth";
 import type { PermissionLevel } from "@/types/admin";
 
-export const SEED_ACCOUNTS: Account[] = [
-  { id: "acc-1", name: "Admin HuyWay", email: "admin@huyway.edu.vn", password: "admin123", role: "super-admin", status: "active" },
-  { id: "acc-2", name: "Phạm Gia Bảo", email: "marketing@huyway.edu.vn", password: "marketing123", role: "marketing", status: "active" },
-  { id: "acc-3", name: "Nguyễn Thu Hà", email: "cskh@huyway.edu.vn", password: "cskh123", role: "cskh", status: "active" },
-];
-
-export const ROLE_LABEL: Record<Role, string> = {
-  "super-admin": "Super Admin",
-  marketing: "Marketing",
-  cskh: "CSKH",
-};
+// ROLE_LABEL sống ở lớp shared (nguồn chân lý); re-export để code admin cũ khỏi đổi import.
+export { ROLE_LABEL } from "@/shared/lib/permissions";
 
 interface NavPermissionEntry {
   label: string;
@@ -34,7 +25,7 @@ export const NAV_PERMISSIONS: Record<string, NavPermissionEntry> = {
 export function getPermissionLevel(navId: string, role: Role): PermissionLevel {
   const entry = NAV_PERMISSIONS[navId];
   if (!entry) return "none";
-  if (role === "super-admin") return entry.superAdmin;
+  if (role === "super_admin") return entry.superAdmin;
   if (role === "marketing") return entry.marketing;
   return entry.cskh;
 }

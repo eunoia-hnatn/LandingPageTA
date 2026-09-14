@@ -1,11 +1,29 @@
 @import "tailwindcss";
+@config "../tailwind.config.js";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-display: "Montserrat", ui-sans-serif, system-ui, sans-serif;
 
-  --color-primary: #2563eb;
-  --color-primary-light: #eff6ff;
-  --color-primary-dark: #1d4ed8;
+  /* ── Brand tokens theo DESIGN.md (2 màu: Scholar Indigo + Wayfinder Orange) ── */
+  --color-scholar-indigo: #2c3481;
+  --color-scholar-indigo-deep: #242a6b;
+  --color-scholar-indigo-mid: #4e579f;
+  --color-scholar-indigo-soft: #737cbf;
+  --color-indigo-wash: #f1f2fc;
+  --color-indigo-tint: #e1e4f5;
+  --color-wayfinder-orange: #f68c1f;
+  --color-wayfinder-orange-deep: #d86f0c;
+  --color-orange-wash: #fff4e8;
+  --color-ink: #000000;
+  --color-ink-body: #717174;
+  --color-ink-muted: #8a8a8d;
+  --color-hairline: #e2e8f0;
+
+  /* Admin control blue (non-brand, legacy admin UI) — primary đổi sang indigo cho khớp DESIGN.md */
+  --color-primary: #2c3481;
+  --color-primary-light: #f1f2fc;
+  --color-primary-dark: #242a6b;
   --color-bg: #f5f7fa;
   --color-card: #ffffff;
   --color-border: #e5e7eb;
@@ -41,6 +59,13 @@
     color: var(--color-text);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+  }
+  /* DESIGN.md: heading Montserrat 600, ink #000 */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
   }
   ::-webkit-scrollbar {
     width: 8px;

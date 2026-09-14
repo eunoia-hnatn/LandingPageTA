@@ -12,7 +12,10 @@
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@user/*": ["./src/features/user/*"],
+      "@admin/*": ["./src/features/admin/*"],
+      "@shared/*": ["./src/shared/*"]
     },
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
